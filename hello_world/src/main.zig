@@ -4,12 +4,16 @@ const hello_world = @import("hello_world");
 // start()
 // This is the beginning of the app
 fn start() !void {
+    // Use a buffer
     var stdin_buffer: [1024]u8 = undefined;
     var stdout_buffer: [1024]u8 = undefined;
+
     var stdin = std.fs.File.stdin().reader(&stdin_buffer);
     var stdout = std.fs.File.stdout().writer(&stdout_buffer);
+
     // A capacity to hold any i64 + '\r'
     var line_buffer: [1024]u8 = undefined;
+
     const output = try ask_for_prompt(line_buffer[0..], &stdin.interface, &stdout.interface);
     try stdout.interface.print("Your output: {s}\n", .{output});
     try stdout.interface.flush();
